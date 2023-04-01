@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  yp-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - yp-redis
+      - yp-postgres
+    env_file:
+      - docker/env.local
+  yp-redis:
+    image: redis:7.0.10-alpine
+
+  yp-postgres:
+    image: postgres:15.2-alpine
+    
+
+
+networks:
+  default:
+    external:
+      name: yp-network 

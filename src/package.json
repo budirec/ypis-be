@@ -1,0 +1,39 @@
+{
+  "name": "ypis-be",
+  "version": "1.0.0",
+  "description": "Yummy Products",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node ./dist/index.js",
+    "dev": "node --watch ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/budirec/ypis-be.git"
+  },
+  "keywords": [
+    "yummy",
+    "products",
+    "tempeh",
+    "soy",
+    "bean"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/budirec/ypis-be/issues"
+  },
+  "homepage": "https://github.com/budirec/ypis-be#readme",
+  "dependencies": {
+    "@fastify/postgres": "^5.2.0",
+    "@fastify/redis": "^6.1.0",
+    "fastify": "^4.15.0",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^1.0.1",
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.3"
+  }
+}
