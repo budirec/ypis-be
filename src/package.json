@@ -4,7 +4,7 @@
   "description": "Yummy Products",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "./node_modules/typescript/bin/tsc -p tsconfig.json",
     "start": "node ./dist/index.js",
     "dev": "node --watch ./dist/index.js"
   },
@@ -19,7 +19,7 @@
     "soy",
     "bean"
   ],
-  "author": "",
+  "author": "Varun Kamra",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/budirec/ypis-be/issues"
@@ -28,7 +28,9 @@
   "dependencies": {
     "@fastify/postgres": "^5.2.0",
     "@fastify/redis": "^6.1.0",
+    "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
+    "knex": "^2.4.2",
     "pg": "^8.10.0"
   },
   "devDependencies": {

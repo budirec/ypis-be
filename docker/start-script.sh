@@ -1,2 +1,2 @@
 #!/bin/sh
-npm run build
+npm i && npm run build && npm run dev
