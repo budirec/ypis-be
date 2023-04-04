@@ -10,7 +10,7 @@ services:
       - yp-redis
       - yp-postgres
     env_file:
-      - docker/env.local
+      - docker/env/env.local
     volumes:
       - ./src:/var/www
     ports:
@@ -24,7 +24,8 @@ services:
     image: postgres:15.2-alpine
     environment:
       POSTGRES_PASSWORD: pass
-
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
 
 networks:
   default:

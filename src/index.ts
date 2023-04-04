@@ -8,6 +8,6 @@ app.listen({ port: process.env.PORT, host: process.env.HOST }, (err, address) =>
     console.log(`Server listening at ${address}`)
 });
 
-app.get('/', async (request, response) => {
-  response.send('Yummy Products');
+app.get('/status', async (request, response) => {
+  response.send({status: 'OK'});
 });

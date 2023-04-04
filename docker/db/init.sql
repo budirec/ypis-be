@@ -1,0 +1,4 @@
+-- CREATE USER yp_user;
+
+CREATE DATABASE yp;
+-- GRANT ALL PRIVILIGES ON DATABASE yp TO yp_user;
