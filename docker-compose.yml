@@ -14,7 +14,7 @@ services:
     volumes:
       - ./src:/var/www
     ports:
-      - "8080:8080"
+      - "80:80"
   yp-redis:
     container_name: yp-redis
     image: redis:7.0.10-alpine
