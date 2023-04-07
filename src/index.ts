@@ -8,6 +8,21 @@ app.listen({ port: process.env.PORT, host: process.env.HOST }, (err, address) =>
     console.log(`Server listening at ${address}`)
 });
 
-app.get('/status', async (request, response) => {
+app.get('/status', {
+  schema: {
+    description: 'Get status',
+    tags: ['health'],
+    summary: 'Get healthcheck',
+    response: {
+      200: {
+        description: 'OK',
+        type: 'object',
+        properties: {
+          status: { type: 'string' }
+        }
+      },
+    },
+  }
+}, async (request, response) => {
   response.send({status: 'OK'});
 });

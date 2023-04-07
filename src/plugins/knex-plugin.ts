@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify"
 import fastifyPlugin from "fastify-plugin"
 import knex from "knex";
-const knexPlugin: FastifyPluginAsync = async (fastify, options ={}) => {
+const knexPlugin: FastifyPluginAsync = async (fastify, options = {}) => {
 
     const db = knex({
         client: 'pg',
@@ -13,7 +13,8 @@ const knexPlugin: FastifyPluginAsync = async (fastify, options ={}) => {
         migrations:{
             tableName: 'knex_migrations',
             directory: 'migrations'
-        }
+        },
+        ...options
     });
     fastify.decorate('knex', db);
  }

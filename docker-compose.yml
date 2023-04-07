@@ -23,9 +23,13 @@ services:
     container_name: yp-postgres
     image: postgres:15.2-alpine
     environment:
-      POSTGRES_PASSWORD: pass
-    volumes:
-      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
+      LC_ALL: C.UTF-8
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret@Pass
+      POSTGRES_DB: yp
+    # volumes:
+      # - ./postgres-data:/var/lib/postgresql/data
+      # - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
 
 networks:
   default:
