@@ -4,7 +4,6 @@ export const swaggerUIConfig = {
     routePrefix: '/swagger',
     uiConfig: {
       docExpansion: 'full',
-      deepLinking: false
+      deepLinking: true
     },
-   
   }
