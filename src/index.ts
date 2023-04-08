@@ -22,6 +22,11 @@ app.get('/status', {
         }
       },
     },
+    security: [
+      {
+        "apiKey": []
+      }
+    ]
   }
 }, async (request, response) => {
   response.send({status: 'OK'});

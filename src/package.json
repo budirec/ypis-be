@@ -32,6 +32,7 @@
     "@fastify/postgres": "^5.2.0",
     "@fastify/redis": "^6.1.0",
     "@fastify/swagger": "^8.3.1",
+    "@fastify/swagger-ui": "^1.7.0",
     "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
     "fastify-plugin": "^4.5.0",

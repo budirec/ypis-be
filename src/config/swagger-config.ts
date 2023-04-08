@@ -1,20 +1,17 @@
 export const swaggerConfig = {
-  routePrefix: "/documentation",
-  exposeRoute: true,
   openapi: {
+    mode: 'dynamic',
     openapi: "3.0.3", 
     info: {
-      title: "Test swagger",
-      description: "testing the fastify swagger api",
+      title: "Yummy Products",
+      description: "Yummy Products",
       version: "1.0.0"
     },
     consumes:["application/json"],
     produces:["application/json"],
-    host: "localhost:80",
+    host: "localhost",
     schemes: ["http","https"],
-    components: {
-    },
-    
+    components: {},
     hideUntagged: true,
     exposeRoute: true
   }
