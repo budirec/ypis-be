@@ -1,23 +1,12 @@
-import { FastifyPluginAsync } from "fastify"
+import { FastifyInstance, FastifyPluginAsync, FastifyPluginOptions } from "fastify"
 import fastifyPlugin from "fastify-plugin"
-import knex from "knex";
-const knexPlugin: FastifyPluginAsync = async (fastify, options = {}) => {
+import knex, { Knex } from "knex";
+import * as config from "../knexfile"
 
-    const db = knex({
-        client: 'pg',
-        connection: {
-            host: process.env.POSTGRES_HOST,
-            port: 5432,
-            database: process.env.POSTGRES_DB,
-        },
-        migrations:{
-            tableName: 'knex_migrations',
-            directory: 'migrations'
-        },
-        ...options
-    });
+
+const knexPlugin: FastifyPluginAsync = async (fastify: FastifyInstance) => { 
+    const db = knex(<Knex.Config>config);
     fastify.decorate('knex', db);
- }
+  }
 
-
-export default fastifyPlugin(knexPlugin);
+export default fastifyPlugin(knexPlugin)

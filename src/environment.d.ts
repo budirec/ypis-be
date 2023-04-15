@@ -5,15 +5,15 @@ declare global {
         interface ProcessEnv {
             NODE_ENV: string;
             HOST: string;
-            PORT: number;
-            REDIS_PORT: string;
-            REDIS_HOST: string;
-            REDIS_PASSWORD: string|undefined;
-            REDIS_PORT: string;
-            POSTGRES_USER: string;
-            POSTGRES_PASSWORD: string;
-            POSTGRES_DB: string;
-            POSTGRES_HOST: string;
+            PORT: string;
+            CACHE_PORT: string;
+            CACHE_HOST: string;
+            CACHE_PASSWORD: string|undefined;
+            DB_USER: string;
+            DB_PASSWORD: string;
+            DB_DATABASE: string;
+            DB_PORT: string;
+            DB_HOST: string;
         }
     }
 }

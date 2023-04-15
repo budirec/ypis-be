@@ -7,29 +7,26 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - yp-redis
-      - yp-postgres
+      - yp-cache
+      - yp-db
     env_file:
       - docker/env/env.local
     volumes:
       - ./src:/var/www
     ports:
       - "80:80"
-  yp-redis:
-    container_name: yp-redis
+  yp-cache:
+    container_name: yp-cache
     image: redis:7.0.10-alpine
 
-  yp-postgres:
-    container_name: yp-postgres
+  yp-db:
+    container_name: yp-db
     image: postgres:15.2-alpine
     environment:
       LC_ALL: C.UTF-8
-      POSTGRES_USER: myuser
       POSTGRES_PASSWORD: secret@Pass
-      POSTGRES_DB: yp
-    # volumes:
-      # - ./postgres-data:/var/lib/postgresql/data
-      # - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
 
 networks:
   default:

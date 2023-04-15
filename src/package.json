@@ -4,12 +4,11 @@
   "description": "Yummy Products",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/typescript/bin/tsc -p tsconfig.json",
-    "start": "node ./dist/index.js",
-    "dev": "node --watch ./dist/index.js",
-    "lint": "node_modules/eslint/bin/eslint.js .",
-    "up": "knex migrate:up",
-    "down": "knex migrate:down"
+    "start": "./node_modules/.bin/ts-node index.ts",
+    "dev": "./node_modules/.bin/nodemon",
+    "lint": "node_modules/.bin/eslint.js .",
+    "up": "node_modules/.bin/knex migrate:up",
+    "down": "node_modules/.bin/knex migrate:down"
   },
   "repository": {
     "type": "git",
@@ -47,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.37.0",
+    "nodemon": "^2.0.22",
     "typescript": "^5.0.3"
   }
 }

@@ -1,43 +1,20 @@
 import type { Knex } from "knex";
+import { constants } from "./config/constants";
 
 // Update with your config settings.
 
-const config: { [key: string]: Knex.Config } = {
-  development: {
+const config: Knex.Config  = {
     client: "postgresql",
     connection: {
-      database: process.env.POSTGRES_DB,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      host: process.env.POSTGRES_HOST
-    },
-    pool: {
-      min: 2,
-      max: 10
+      database: constants.DB_DATABASE,
+      user: constants.DB_USER,
+      password: constants.DB_PASSWORD,
+      host: constants.DB_HOST
     },
     migrations: {
       tableName: "knex_migrations",
       directory: "./migrations"
     }
-  },
-
-  production: {
-    client: "postgresql",
-    connection: {
-      database: "",
-      user: "",
-      password: ""
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations",
-      directory: "./migrations"
-    }
-  }
-
-};
+  };
 
 module.exports = config;

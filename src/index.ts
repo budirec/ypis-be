@@ -1,6 +1,7 @@
 import { app } from "./app";
+import { constants } from "./config/constants";
 
-app.listen({ port: process.env.PORT, host: process.env.HOST }, (err, address) => {
+app.listen({ port: constants.PORT , host: constants.HOST }, (err, address) => {
     if (err) {
       console.error(err)
       process.exit(1)

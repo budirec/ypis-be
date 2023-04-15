@@ -1,5 +1,5 @@
 src/node_modules
-src/package-lock.json
-src/dist
 .vscode
 postgres-data
+src/**/*.js
+dist
