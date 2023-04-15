@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  yp-web:
+    container_name: yp-web
+    hostname: yp-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - yp-cache
+      - yp-db
+    env_file:
+      - docker/env/env.local
+    volumes:
+      - ./src:/var/www
+    ports:
+      - "80:80"
+  yp-cache:
+    container_name: yp-cache
+    image: redis:7.0.10-alpine
+
+  yp-db:
+    container_name: yp-db
+    image: postgres:15.2-alpine
+    environment:
+      LC_ALL: C.UTF-8
+      POSTGRES_PASSWORD: secret@Pass
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/dump.sql
+
+networks:
+  default:
+    external: true
+    name: yp-network
