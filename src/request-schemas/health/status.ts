@@ -1,8 +1,8 @@
 export const status = {
-    description: 'Get status',
-    tags: ['health'],
-    summary: 'Get healthcheck',
-    response: {
+  description: 'Get status',
+  tags: ['health'],
+  summary: 'Get healthcheck',
+  response: {
     200: {
       description: 'OK',
       type: 'object',
@@ -10,5 +10,5 @@ export const status = {
         status: { type: 'string' }
       }
     },
-    }
   }
+}
