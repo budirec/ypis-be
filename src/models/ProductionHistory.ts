@@ -14,7 +14,7 @@ export class ProductionHistory extends Model {
   
   static jsonSchema = {
     type: 'object',
-    required: ['production_guid', 'event_type_guid', 'label', 'args'],
+    required: ['production_guid', 'event_type_guid', 'label'],
     properties: {
       production_history_guid: { type: "string" },
       production_guid: { type: "string" },

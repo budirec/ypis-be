@@ -4,6 +4,8 @@ import { postProduction } from "../request-schemas/production/post-production";
 import { Item } from "../models/Item";
 import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
+import { EventType } from "../models/EventType";
+import { ProductionHistory } from "../models/ProductionHistory";
 
 @Controller({
   route: '/',
@@ -33,6 +35,14 @@ export default class ProductionController{
       args: rawMaterials
     });
     const oInstance =  await Production.query().findById(oProduction.production_guid);
+
+    const oEventType = await EventType.query().findOne({event_type: "Production"});
+    await ProductionHistory.query().insert({
+      production_guid: oInstance.production_guid,
+      event_type_guid: oEventType.event_type_guid,
+      label: "Production Approval Pending."
+    })
+
     response.status(201).send(oInstance);
   } 
 }       

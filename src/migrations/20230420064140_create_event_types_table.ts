@@ -32,7 +32,8 @@ export async function up(knex: Knex): Promise<void> {
 
   return knex.raw(`
     INSERT INTO event_types (event_type) 
-    VALUES ('Production Approved'), 
+    VALUES ('Production'),
+    ('Production Approved'),
     ('Production Started'), 
     ('Bean Soaked'), 
     ('Cleanup Bean'), 

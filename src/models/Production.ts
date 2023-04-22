@@ -1,6 +1,7 @@
 import { Model } from "objection";
 import { ProductionStatus } from "./ProductionStatus";
 import { Item } from "./Item";
+import { ProductionHistory } from "./ProductionHistory";
 
 export class Production extends Model {
   production_guid: string;
@@ -43,6 +44,14 @@ export class Production extends Model {
         from: 'productions.finished_item_guid',
         to: 'items.item_guid'
       }
-    }
+    },
+    productionHistories: {
+      relation: Model.HasManyRelation,
+      modelClass: ProductionHistory,
+      join: {
+        from: 'productions.production_guid',
+        to: 'production_histories.production_guid'
+      }
+    },
   };
 }
