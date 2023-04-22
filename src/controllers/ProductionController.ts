@@ -10,7 +10,7 @@ import { Production } from "../models/Production";
   type: ControllerType.SINGLETON,
 })
 export default class ProductionController{
-    @POST('/productions', {
+    @POST('/production', {
       schema: postProduction
     })
   public async handle(request: FastifyRequest, response: FastifyReply) {
@@ -27,12 +27,12 @@ export default class ProductionController{
       return response.status(400).send("Item not found with given finished_item_guid.");
     }
     const oProductionStatus = await ProductionStatus.query().findOne({status_slug: "open"});
-    
-    const oProduction = new Production();
-    oProduction.finished_item_guid = oItem.item_guid;
-    oProduction.production_status_guid = oProductionStatus.production_status_guid;
-    oProduction.args = rawMaterials;
-    await oProduction.$query().insert();
-    response.status(201).send("Production document created successfully.");
+    const oProduction =  await Production.query().insert({
+      finished_item_guid: finishedItemGuid,
+      production_status_guid: oProductionStatus.production_status_guid,
+      args: rawMaterials
+    });
+    const oInstance =  await Production.query().findById(oProduction.production_guid);
+    response.status(201).send(oInstance);
   } 
 }       

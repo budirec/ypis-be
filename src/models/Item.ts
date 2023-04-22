@@ -19,12 +19,11 @@ export class Item extends Model {
     properties: {
       item_guid: { type: "string" },
       item_name: { type: "string" },
-      unit_price: { type: "number", format: "double" },
+      unit_price: { type: "number" },
       upc_code: { type: "string" },
       stock_quantity: { type: "integer" },
       created_at: { type: "string" },
       updated_at: { type: "string" },
-      // name: { type: "string", minLength: 1, maxLength: 255 },
     },
   }
 }

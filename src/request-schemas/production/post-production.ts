@@ -9,9 +9,6 @@ export const postProduction = {
       },
       raw_materials: {
         type:"object",
-        properties: {
-          additionalProperties:true
-        }
       }
     },
     required:["finished_item_guid", "raw_materials"]
@@ -19,7 +16,7 @@ export const postProduction = {
   response: {
     200: {
       description: 'OK',
-      type: 'string',
+      type: 'object',
     },
   }
 }

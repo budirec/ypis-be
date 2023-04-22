@@ -18,7 +18,7 @@ export class Production extends Model {
     properties: {
       production_guid: { type: "string" },
       production_status_guid: { type: "string" },
-      finished_item_guid: { type: "number", format: "double" },
+      finished_item_guid: { type: "string" },
       args: { 
         type: "object", 
         properties: {
