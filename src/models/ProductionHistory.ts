@@ -1,49 +1,33 @@
-import { Model } from "objection";
+import { Check, Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { BaseModel } from "./BaseModel";
 import { Production } from "./Production";
 import { EventType } from "./EventType";
 
-export class ProductionHistory extends Model {
-  production_history_guid: string;
-  production_guid: string;
-  event_type_guid: string;
-  label: string;
-  args: object;
-
-  static tableName = 'production_histories';
-  static idColumn = 'production_history_guid';
-  
-  static jsonSchema = {
-    type: 'object',
-    required: ['production_guid', 'event_type_guid', 'label'],
-    properties: {
-      production_history_guid: { type: "string" },
-      production_guid: { type: "string" },
-      event_type_guid: { type: "string" },
-      label: { type: "string" },
-      args: { 
-        type: "object", 
-        properties: {
-          additionalProperties: true
-        } 
-      },
-    },
+@Entity({tableName: 'production_histories'})
+export class ProductionHistory extends BaseModel {
+  constructor(productionGuid: string, eventTypeGuid: string, label: string, args: object) {
+    super();
+    this.production_guid = productionGuid;
+    this.event_type_guid = eventTypeGuid;
+    this.label = label;
+    this.args = args;
   }
-  static relationMappings = {
-    production: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: Production,
-      join: {
-        from: 'production_histories.production_guid',
-        to: 'production.production_guid'
-      }
-    },
-    eventType: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: EventType,
-      join: {
-        from: 'production_histories.event_type_guid',
-        to: 'event_types.event_type_guid'
-      }
-    }
-  };
+
+  @PrimaryKey({ type: 'string' })
+    production_history_guid: string;
+
+  @ManyToOne(() => Production, { mapToPk: true })
+  @Check({expression: 'required'})
+    production_guid: string;
+
+  @ManyToOne(() => EventType, { mapToPk: true })
+  @Check({expression: 'required'})
+    event_type_guid: string;
+  
+  @Property({ type: 'string' })
+  @Check({expression: 'required'})
+    label: string;
+  
+  @Property({ type: 'object' })
+    args: object;
 }

@@ -5,7 +5,7 @@ import { swaggerUIConfig } from "./config/swagger-ui-config";
 import { bootstrap } from "fastify-decorators";
 import { controllers } from "./config/controllers";
 import { constants } from "./config/constants";
-import knexObjectionPlugin from "./plugins/knex-plugin";
+import mikiroOrmPlugin from "./plugins/mikiro-orm-plugin";
 
 export const app = fastify({logger:true});
 
@@ -20,4 +20,4 @@ app.register(require('@fastify/swagger-ui'), swaggerUIConfig);
 app.register(bootstrap, {
   controllers
 });
-app.register(knexObjectionPlugin);
+app.register(mikiroOrmPlugin);

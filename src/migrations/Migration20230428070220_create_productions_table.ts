@@ -1,8 +1,9 @@
-import { Knex } from "knex";
+import { Migration } from '@mikro-orm/migrations';
 
+export class Migration20230428070220 extends Migration {
 
-export async function up(knex: Knex): Promise<void> {
-  await knex.raw(`
+  async up(): Promise<void> {
+    await this.addSql(`
     CREATE TABLE IF NOT EXISTS productions (
     production_guid UUID DEFAULT uuid_generate_v4(), 
     production_status_guid UUID NOT NULL,
@@ -18,10 +19,10 @@ export async function up(knex: Knex): Promise<void> {
     )
   `);
 
-  await knex.raw(`CREATE INDEX productions_args_idx ON productions USING GIN(args);`);
+    await this.addSql(`CREATE INDEX productions_args_idx ON productions USING GIN(args);`);
 
-  return knex.raw(`
-    CREATE FUNCTION
+    return this.addSql(`
+    CREATE OR REPLACE FUNCTION
     on_productions_update()
     RETURNS
     TRIGGER LANGUAGE plpgsql AS $$
@@ -31,14 +32,15 @@ export async function up(knex: Knex): Promise<void> {
     END;
     $$;
 
-    CREATE TRIGGER trigger_productions_updated
+    CREATE OR REPLACE TRIGGER trigger_productions_updated
     BEFORE UPDATE ON productions
     FOR EACH ROW EXECUTE FUNCTION on_productions_update();
   `);
 
-}
+  }
 
+  async down(): Promise<void> {
+    return this.addSql(`DROP TABLE IF EXISTS productions;`)
+  }
 
-export async function down(knex: Knex): Promise<void> {
-  return knex.raw("DROP TABLE IF EXISTS productions");
 }

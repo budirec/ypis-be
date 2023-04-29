@@ -2,10 +2,12 @@ import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { postProduction } from "../request-schemas/production/post-production";
 import { Item } from "../models/Item";
+import { app } from "../app";
 import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
-import { EventType } from "../models/EventType";
+import { Collection } from "@mikro-orm/core";
 import { ProductionHistory } from "../models/ProductionHistory";
+import { EventType } from "../models/EventType";
 
 @Controller({
   route: '/',
@@ -24,25 +26,17 @@ export default class ProductionController{
     if (!rawMaterials) {
       return response.status(400).send("raw_materials is required.")
     }
-    const oItem = await Item.query().findById(finishedItemGuid);
-    if (!oItem) {
+    
+    const item = await app.orm.em.findOne(Item, finishedItemGuid);
+    if (!item) {
       return response.status(400).send("Item not found with given finished_item_guid.");
     }
-    const oProductionStatus = await ProductionStatus.query().findOne({status_slug: "open"});
-    const oProduction =  await Production.query().insert({
-      finished_item_guid: finishedItemGuid,
-      production_status_guid: oProductionStatus.production_status_guid,
-      args: rawMaterials
-    });
-    const oInstance =  await Production.query().findById(oProduction.production_guid);
-
-    const oEventType = await EventType.query().findOne({event_type: "Production"});
-    await ProductionHistory.query().insert({
-      production_guid: oInstance.production_guid,
-      event_type_guid: oEventType.event_type_guid,
-      label: "Production Approval Pending."
-    })
-
-    response.status(201).send(oInstance);
+    const productionStatus = await app.orm.em.findOne(ProductionStatus, { status_slug: "open" });
+    const production = new Production(productionStatus.production_status_guid, finishedItemGuid, rawMaterials);
+    const eventType = await app.orm.em.findOne(EventType, { event_type: "Production" });
+    const productionHistory = new ProductionHistory(production.production_guid, eventType.event_type_guid, "Production Approval Pending.", rawMaterials)
+    production.productionHistories.add(productionHistory);
+    await app.orm.em.persistAndFlush(production);
+    response.status(201).send(production);
   } 
 }       

@@ -1,23 +1,16 @@
-import { Model } from "objection";
+import { Check, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { BaseModel } from "./BaseModel";
 
-export class ProductionStatus extends Model {
-  production_status_guid: string;
-  status: string;
-  status_slug: string;
-  created_at: string;
-  updated_at: string;
+@Entity({tableName: 'production_statuses'})
+export class ProductionStatus extends BaseModel {
+  @PrimaryKey({ type: 'string' })
+    production_status_guid: string;
 
-  static tableName = 'production_statuses';
-  static idColumn = 'production_status_guid';
+  @Property({ type: 'string' })
+  @Check({expression: 'required'})
+    status: string;
 
-  static jsonSchema = {
-    type: 'object',
-    required: ['status', 'status_slug'],
-
-    properties: {
-      production_status_guid: { type: "string" },
-      status: { type: "string" },
-      status_slug: { type: "string" },
-    },
-  }
+  @Property({ type: 'string' })
+  @Check({expression: 'required'})
+    status_slug: string;
 }

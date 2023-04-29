@@ -1,8 +1,9 @@
-import { Knex } from "knex";
+import { Migration } from '@mikro-orm/migrations';
 
+export class Migration20230428070122 extends Migration {
 
-export async function up(knex: Knex): Promise<void> {
-  await knex.raw(`
+  async up(): Promise<void> {
+    await this.addSql(`
   CREATE TABLE IF NOT EXISTS event_types (
   event_type_guid UUID DEFAULT uuid_generate_v4(), 
   event_type VARCHAR(100) NOT NULL, 
@@ -12,10 +13,10 @@ export async function up(knex: Knex): Promise<void> {
   )
 `);
 
-  await knex.raw(`CREATE UNIQUE INDEX event_types_event_type_u_idx ON event_types(event_type);`);
+    await this.addSql(`CREATE UNIQUE INDEX event_types_event_type_u_idx ON event_types(event_type);`);
 
-  await knex.raw(`
-    CREATE FUNCTION
+    await this.addSql(`
+    CREATE OR REPLACE FUNCTION
     on_event_types_update()
     RETURNS
     TRIGGER LANGUAGE plpgsql AS $$
@@ -25,21 +26,19 @@ export async function up(knex: Knex): Promise<void> {
     END;
     $$;
 
-    CREATE TRIGGER trigger_event_types_updated
+    CREATE OR REPLACE TRIGGER trigger_event_types_updated
     BEFORE UPDATE ON event_types
     FOR EACH ROW EXECUTE FUNCTION on_event_types_update();
   `);
 
-  return knex.raw(`
+    return this.addSql(`
     INSERT INTO event_types (event_type) 
     VALUES ('Production'),
     ('Production Approved'),
     ('Production Started'), 
     ('Bean Soaked'), 
     ('Cleanup Bean'), 
-    ('Cooking'), 
-    ('Boiling'), 
-    ('Drying'), 
+    ('Cooking'),
     ('Yeast'), 
     ('Packing'), 
     ('Weighing'), 
@@ -53,12 +52,11 @@ export async function up(knex: Knex): Promise<void> {
     ('Frozen'), 
     ('Done')
 `);
+
+  }
+
+  async down(): Promise<void> {
+    return this.addSql(`DROP TABLE IF EXISTS event_types;`)
+  }
+
 }
-
-
-export async function down(knex: Knex): Promise<void> {
-  return knex.raw("DROP TABLE IF EXISTS event_types");
-}
-
-
-

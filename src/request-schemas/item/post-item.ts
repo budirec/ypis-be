@@ -15,7 +15,7 @@ export const postItem = {
         type:"integer"
       },
     },
-    required:["item_name", "unit_price", "upc_code", "stock_quantity"]
+    required:["item_name", "unit_price", "stock_quantity"]
   },
   response: {
     200: {

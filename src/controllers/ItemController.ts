@@ -1,7 +1,9 @@
 import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Item } from "../models/Item";
+// import { Item } from "../models/Item";
 import { postItem } from "../request-schemas/item/post-item";
+import { Item } from "../models/Item";
+import { app } from "../app";
 
 @Controller({
   route: '/',
@@ -16,27 +18,23 @@ export default class ItemController{
     const unitPrice = request.body.unit_price;
     const upcCode = request.body.upc_code;
     const stockQuantity = request.body.stock_quantity;
-
+    
     if (!itemName) {
       return response.status(400).send("item_name is required.");
     }
     if (!unitPrice) {
       return response.status(400).send("unit_price is required.")
     }
-    if (!upcCode) {
-      return response.status(400).send("upc_code is required.")
-    }
     if (!stockQuantity) {
       return response.status(400).send("stock_quantity is required.")
     }
-    
-    const oItem = await Item.query().insert({
-      item_name: itemName,
-      unit_price: unitPrice,
-      upc_code: upcCode,
-      stock_quantity: stockQuantity
-    });
-    const oInstance = await Item.query().findById(oItem.item_guid);
-    response.status(201).send(oInstance);
+    let item;
+    if (upcCode) {
+      item = new Item(itemName, unitPrice, stockQuantity, upcCode);
+    } else {
+      item = new Item(itemName, unitPrice, stockQuantity);
+    }
+    await app.orm.em.persistAndFlush(item);
+    response.status(201).send(item);
   } 
 }       

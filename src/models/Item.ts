@@ -1,29 +1,36 @@
-import { Model } from "objection";
+import { Check, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { BaseModel } from "./BaseModel";
+import { v4 } from "uuid";
 
-export class Item extends Model {
-  item_guid: string;
-  item_name: string;
-  unit_price: number;
-  upc_code: string;
-  stock_quantity: number;
-  created_at: string;
-  updated_at: string;
+@Entity({tableName: 'items'})
+export class Item extends BaseModel{
 
-  static tableName = 'items';
-  static idColumn = 'item_guid'
-
-  static jsonSchema = {
-    type: 'object',
-    required: ['item_name', 'unit_price', 'upc_code', 'stock_quantity'],
-
-    properties: {
-      item_guid: { type: "string" },
-      item_name: { type: "string" },
-      unit_price: { type: "number" },
-      upc_code: { type: "string" },
-      stock_quantity: { type: "integer" },
-      created_at: { type: "string" },
-      updated_at: { type: "string" },
-    },
+  constructor(itemName: string, unitPrice: number, stockQuantity: number, upcCode?: string) {
+    super();
+    this.item_name = itemName;
+    this.unit_price = unitPrice;
+    this.stock_quantity = stockQuantity;
+    if (upcCode) {
+      this.upc_code = upcCode;
+    }
   }
+
+  @PrimaryKey({ type: 'string', nullable: true })
+    item_guid: string = v4();
+
+  @Property({ type: 'string' })
+  @Check({expression: 'required'})
+    item_name: string;
+
+  @Property({ type: 'number' })
+  @Check({expression: 'required'})
+    unit_price: number;
+  
+  @Property({ type: 'string', nullable: true })
+    upc_code?: string;
+
+  @Property({ type: 'number' })
+  @Check({expression: 'required'})
+    stock_quantity: number;
+
 }
