@@ -9,7 +9,7 @@ export class Migration20230428070307 extends Migration {
     production_guid UUID NOT NULL,
     event_type_guid UUID NOT NULL,
     label VARCHAR(255) NOT NULL,
-    args JSONB,
+    args JSONB DEFAULT NULL,
     created_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
     updated_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
     CONSTRAINT prod_hist_production_guid_fkey FOREIGN KEY (production_guid)

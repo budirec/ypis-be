@@ -15,7 +15,7 @@ export class Item extends BaseModel{
     }
   }
 
-  @PrimaryKey({ type: 'string', nullable: true })
+  @PrimaryKey({ type: 'string'})
     item_guid: string = v4();
 
   @Property({ type: 'string' })
