@@ -1,9 +1,7 @@
 import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
-// import { Item } from "../models/Item";
 import { postItem } from "../request-schemas/item/post-item";
 import { Item } from "../models/Item";
-import { app } from "../app";
 
 @Controller({
   route: '/',

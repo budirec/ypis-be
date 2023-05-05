@@ -3,7 +3,7 @@ import { BaseModel } from "./BaseModel";
 import { v4 } from "uuid";
 
 @Entity({tableName: 'items'})
-export class Item extends BaseModel{
+export class Item extends BaseModel {
 
   constructor(itemName: string, unitPrice: number, stockQuantity: number, upcCode?: string) {
     super();
