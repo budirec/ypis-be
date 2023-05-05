@@ -31,12 +31,13 @@ export default class ProductionController{
     if (!item) {
       return response.status(400).send("Item not found with given finished_item_guid.");
     }
+
     const productionStatus = await app.orm.em.findOne(ProductionStatus, { status_slug: "open" });
     const production = new Production(productionStatus, item, rawMaterials);
     const eventType = await app.orm.em.findOne(EventType, { event_type: "Production" });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
-    await app.orm.em.persistAndFlush(production);
+    await production.save();
 
     response.status(201).send(production);
   } 

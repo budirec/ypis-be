@@ -9,7 +9,8 @@ export class Migration20230428070005 extends Migration {
       item_name VARCHAR(100) NOT NULL, 
       unit_price REAL NOT NULL, 
       upc_code VARCHAR(100) DEFAULT NULL, 
-      stock_quantity INTEGER NOT NULL, 
+      stock_quantity REAL NOT NULL,
+      unit VARCHAR(10) NOT NULL DEFAULT 'kg'
       created_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1), 
       updated_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
       CONSTRAINT items_pkey PRIMARY KEY (item_guid)

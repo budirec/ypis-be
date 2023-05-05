@@ -33,23 +33,20 @@ export class Migration20230428070122 extends Migration {
 
     return this.addSql(`
     INSERT INTO event_types (event_type) 
-    VALUES ('Production'),
+    VALUES
     ('Production Approved'),
-    ('Production Started'), 
-    ('Bean Soaked'), 
-    ('Cleanup Bean'), 
+    ('Production Started'),
+    ('Soaked'),
+    ('Cleaned'),
     ('Cooking'),
-    ('Yeast'), 
-    ('Packing'), 
-    ('Weighing'), 
-    ('Sealing'), 
-    ('Tray'), 
-    ('Incubator'), 
-    ('Checks'), 
-    ('Flip'), 
-    ('Harvest'), 
-    ('Second Packaging'), 
-    ('Frozen'), 
+    ('Boiled'),
+    ('Dried'),
+    ('Innoculated'),
+    ('In Incubator'),
+    ('Check'),
+    ('Flipped'),
+    ('Harvested'),
+    ('Frozen'),
     ('Done')
 `);
 

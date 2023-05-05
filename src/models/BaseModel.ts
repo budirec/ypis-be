@@ -1,4 +1,5 @@
 import { Property } from "@mikro-orm/core";
+import { app } from "../app";
 
 
 export abstract class BaseModel{
@@ -7,4 +8,8 @@ export abstract class BaseModel{
 
   @Property({ type: 'string', defaultRaw: "CURRENT_TIMESTAMP(1)" })
     updated_at?: string;
+
+  public save() {
+    app.orm.em.persistAndFlush(this);
+  }
 }

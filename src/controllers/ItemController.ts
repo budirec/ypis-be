@@ -34,7 +34,7 @@ export default class ItemController{
     } else {
       item = new Item(itemName, unitPrice, stockQuantity);
     }
-    await app.orm.em.persistAndFlush(item);
+    await item.save();
     response.status(201).send(item);
   } 
 }       
