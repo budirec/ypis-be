@@ -1,5 +1,4 @@
 import { Property } from "@mikro-orm/core";
-import { app } from "../app";
 
 
 export abstract class BaseModel {
