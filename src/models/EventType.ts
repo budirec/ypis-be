@@ -1,4 +1,4 @@
-import { Check, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 
 @Entity({tableName: 'event_types'})
@@ -23,7 +23,6 @@ export class EventType extends BaseModel {
     event_type_guid: string;
 
   @Property({ type: 'string' })
-  @Check({expression: 'required'})
     event_type: string;
 
 }

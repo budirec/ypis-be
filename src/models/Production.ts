@@ -1,4 +1,4 @@
-import { Cascade, Check, Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 import { ProductionStatus } from "./ProductionStatus";
 import { Item } from "./Item";
@@ -24,7 +24,6 @@ export class Production extends BaseModel {
     item: Item;
 
   @Property({ type: 'object' })
-  @Check({expression: 'required'})
     args: object;
 
   @OneToMany({ entity: 'ProductionHistory', mappedBy: 'production', cascade: [Cascade.PERSIST] })

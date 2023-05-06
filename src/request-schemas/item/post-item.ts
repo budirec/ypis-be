@@ -5,14 +5,14 @@ export const postItem = {
     type: "object",
     properties: {
       item_name: {
-        type:"string"
+        type: "string"
       },
       unit_price: { type:"number" },
       upc_code: {
-        type:"string"
+        type: "string"
       },
       stock_quantity: {
-        type:"integer"
+        type: "number"
       },
     },
     required:["item_name", "unit_price", "stock_quantity"]

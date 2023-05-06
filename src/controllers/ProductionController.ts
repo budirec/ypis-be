@@ -5,7 +5,6 @@ import { Item } from "../models/Item";
 import { app } from "../app";
 import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
-import { Collection } from "@mikro-orm/core";
 import { ProductionHistory } from "../models/ProductionHistory";
 import { EventType } from "../models/EventType";
 
@@ -37,7 +36,7 @@ export default class ProductionController{
     const eventType = await app.orm.em.findOne(EventType, { event_type: "Production" });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
-    await production.save();
+    await app.orm.em.persistAndFlush(production)
 
     response.status(201).send(production);
   } 

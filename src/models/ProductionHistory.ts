@@ -1,4 +1,4 @@
-import { Check, Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 import { Production } from "./Production";
 import { EventType } from "./EventType";
@@ -26,7 +26,6 @@ export class ProductionHistory extends BaseModel {
     eventType: EventType;
   
   @Property({ type: 'string' })
-  @Check({expression: 'required'})
     label: string;
   
   @Property({ type: 'object', nullable: true })

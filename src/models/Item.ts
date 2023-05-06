@@ -1,4 +1,4 @@
-import { Check, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 import { v4 } from "uuid";
 
@@ -19,18 +19,15 @@ export class Item extends BaseModel {
     item_guid: string = v4();
 
   @Property({ type: 'string' })
-  @Check({expression: 'required'})
     item_name: string;
 
   @Property({ type: 'number' })
-  @Check({expression: 'required'})
     unit_price: number;
   
   @Property({ type: 'string', nullable: true })
     upc_code?: string;
 
   @Property({ type: 'number' })
-  @Check({expression: 'required'})
     stock_quantity: number;
 
 }
