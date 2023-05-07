@@ -2,7 +2,6 @@ import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { postItem } from "../request-schemas/item/post-item";
 import { Item } from "../models/Item";
-import { app } from "../app";
 
 @Controller({
   route: '/',
@@ -29,7 +28,7 @@ export default class ItemController{
     }
     const item = new Item(itemName, unitPrice, stockQuantity, upcCode);
 
-    await app.orm.em.persistAndFlush(item)
+    await item.save(request.orm.em);
     response.status(201).send(item);
   } 
 }       

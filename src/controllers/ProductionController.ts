@@ -2,7 +2,6 @@ import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { postProduction } from "../request-schemas/production/post-production";
 import { Item } from "../models/Item";
-import { app } from "../app";
 import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
 import { ProductionHistory } from "../models/ProductionHistory";
@@ -26,17 +25,17 @@ export default class ProductionController{
       return response.status(400).send("raw_materials is required.")
     }
     
-    const item = await app.orm.em.findOne(Item, finishedItemGuid);
+    const item = await request.orm.em.findOne(Item, finishedItemGuid);
     if (!item) {
       return response.status(400).send("Item not found with given finished_item_guid.");
     }
 
-    const productionStatus = await app.orm.em.findOne(ProductionStatus, { status_slug: "open" });
+    const productionStatus = await request.orm.em.findOne(ProductionStatus, { status_slug: "open" });
     const production = new Production(productionStatus, item, rawMaterials);
-    const eventType = await app.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
+    const eventType = await request.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
-    await app.orm.em.persistAndFlush(production)
+    await production.save(request.orm.em);
 
     response.status(201).send(production);
   } 

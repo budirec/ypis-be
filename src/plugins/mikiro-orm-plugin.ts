@@ -7,7 +7,9 @@ import { MikroORMOptions } from "@mikro-orm/core"
 
 const mikroOrmPlugin: FastifyPluginAsync<MikroORMOptions> = async (fastify: FastifyInstance) => { 
   const orm = await MikroORM.init(config);
-  fastify.decorate('orm', orm);
+  fastify.addHook('onRequest', async function (request, _reply) {
+    request.orm = orm;
+  })
   
 }
 
