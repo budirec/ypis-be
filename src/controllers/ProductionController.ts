@@ -33,7 +33,7 @@ export default class ProductionController{
 
     const productionStatus = await app.orm.em.findOne(ProductionStatus, { status_slug: "open" });
     const production = new Production(productionStatus, item, rawMaterials);
-    const eventType = await app.orm.em.findOne(EventType, { event_type: "Production" });
+    const eventType = await app.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
     await app.orm.em.persistAndFlush(production)

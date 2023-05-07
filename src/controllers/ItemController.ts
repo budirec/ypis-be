@@ -27,12 +27,8 @@ export default class ItemController{
     if (!stockQuantity) {
       return response.status(400).send("stock_quantity is required.")
     }
-    let item;
-    if (upcCode) {
-      item = new Item(itemName, unitPrice, stockQuantity, upcCode);
-    } else {
-      item = new Item(itemName, unitPrice, stockQuantity);
-    }
+    const item = new Item(itemName, unitPrice, stockQuantity, upcCode);
+
     await app.orm.em.persistAndFlush(item)
     response.status(201).send(item);
   } 

@@ -10,7 +10,7 @@ export class Production extends BaseModel {
   constructor(productionStatus: ProductionStatus, finishedItem: Item, args: object) {
     super();
     this.productionStatus = productionStatus;
-    this.item = finishedItem;
+    this.finishedItem = finishedItem;
     this.args = args;
   }
 
@@ -21,7 +21,7 @@ export class Production extends BaseModel {
     productionStatus: ProductionStatus;
 
   @ManyToOne({entity: 'Item', fieldName: 'finished_item_guid'})
-    item: Item;
+    finishedItem: Item;
 
   @Property({ type: 'object' })
     args: object;
