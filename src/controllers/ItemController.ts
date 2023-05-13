@@ -2,6 +2,9 @@ import { Controller, ControllerType, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { postItem } from "../request-schemas/item/post-item";
 import { Item } from "../models/Item";
+import { Container } from "inversify";
+import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
+import { app } from "../app";
 
 @Controller({
   route: '/',
@@ -12,6 +15,8 @@ export default class ItemController{
       schema: postItem
     })
   public async handle(request: FastifyRequest, response: FastifyReply) {
+    const myContainer = new Container();
+    myContainer.bind<MikroORM<IDatabaseDriver<Connection>>>(Symbol.for('MikroORM')).toConstantValue(app.orm);
     const itemName = request.body.item_name;
     const unitPrice = request.body.unit_price;
     const upcCode = request.body.upc_code;
@@ -28,7 +33,7 @@ export default class ItemController{
     }
     const item = new Item(itemName, unitPrice, stockQuantity, upcCode);
 
-    await item.save(request.orm.em);
+    await item.save();
     response.status(201).send(item);
   } 
 }       

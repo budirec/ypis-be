@@ -2,14 +2,16 @@ import { FastifyInstance, FastifyPluginAsync } from "fastify"
 import fastifyPlugin from "fastify-plugin"
 import { MikroORM } from "@mikro-orm/postgresql"
 import config from "../config/mikro-orm.config"
-import { MikroORMOptions } from "@mikro-orm/core"
+import { MikroORMOptions, RequestContext } from "@mikro-orm/core"
 
 
-const mikroOrmPlugin: FastifyPluginAsync<MikroORMOptions> = async (fastify: FastifyInstance) => { 
+const mikroOrmPlugin: FastifyPluginAsync<MikroORMOptions> = async (fastify: FastifyInstance): Promise<void> => { 
   const orm = await MikroORM.init(config);
-  fastify.addHook('onRequest', async function (request, _reply) {
-    request.orm = orm;
-  })
+  await RequestContext.createAsync(orm.em, ()=>{ return new Promise(_resolve => ()=>{return;});});
+  // fastify.addHook('onRequest', async function (request, _reply) {
+  fastify.orm = orm;
+    // RequestContext.create(orm.em, )
+  // })
   
 }
 

@@ -35,7 +35,7 @@ export default class ProductionController{
     const eventType = await request.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
-    await production.save(request.orm.em);
+    await production.save();
 
     response.status(201).send(production);
   } 
