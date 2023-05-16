@@ -7,13 +7,11 @@ export const postItem = {
       item_name: {
         type: "string"
       },
-      unit_price: { type:"number" },
+      unit_price: { type:"number", minimum: 0 },
       upc_code: {
         type: "string"
       },
-      stock_quantity: {
-        type: "number"
-      },
+      stock_quantity: { type: "number", minimum: 0 },
     },
     required:["item_name", "unit_price", "stock_quantity"]
   },

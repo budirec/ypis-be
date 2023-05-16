@@ -11,7 +11,7 @@ const config: Options = {
   host: constants.DB_HOST,
   driver: PostgreSqlDriver, 
   entitiesTs: ['./models/**/*.ts'], 
-  // allowGlobalContext: true,
+  allowGlobalContext: true,
   migrations: {
     tableName: "mikro_orm_migrations",
     pathTs: "migrations",
