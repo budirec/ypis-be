@@ -14,8 +14,8 @@ export class Migration20230428070005 extends Migration {
       created_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1), 
       updated_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
       CONSTRAINT items_pkey PRIMARY KEY (item_guid),
-      CONSTRAINT items_unit_price_positive_check check (unit_price > 0),
-      CONSTRAINT items_stock_quantity_positive_check check (stock_quantity > 0)
+      CONSTRAINT items_unit_price_positive_check check (unit_price >= 0),
+      CONSTRAINT items_stock_quantity_positive_check check (stock_quantity >= 0)
     )`);
 
     await this.addSql(`CREATE UNIQUE INDEX items_item_name_u_idx ON items(item_name);`);

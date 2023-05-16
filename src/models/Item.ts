@@ -22,14 +22,14 @@ export class Item extends BaseModel {
     item_name: string;
 
   @Property({ type: 'number' })
-  @Check({ expression: 'unit_price > 0' })
+  @Check({ expression: 'unit_price >= 0' })
     unit_price: number;
   
   @Property({ type: 'string', nullable: true })
     upc_code?: string;
 
   @Property({ type: 'number' })
-  @Check({ expression: 'stock_quantiy > 0' })
+  @Check({ expression: 'stock_quantiy >= 0' })
     stock_quantity: number;
 
 }
