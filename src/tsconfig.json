@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "preserveWatchOutput": true,
+    "strictNullChecks": false,
+    "declaration": true,
+    "typeRoots": ["./types"]
+  }
+}
