@@ -23,6 +23,12 @@ export class Production extends BaseModel {
   @ManyToOne({entity: 'Item', fieldName: 'finished_item_guid'})
     finishedItem: Item;
 
+  @Property({ type: 'number' })
+    target: number;
+  
+  @Property({ type: 'number' })
+    buffer: number;
+
   @Property({ type: 'object' })
     args: object;
 

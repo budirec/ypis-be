@@ -1,4 +1,4 @@
-import { Controller, ControllerType, POST } from "fastify-decorators";
+import { Controller, ControllerType, GET, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { postProduction } from "../request-schemas/production/post-production";
 import { Item } from "../models/Item";
@@ -6,6 +6,7 @@ import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
 import { ProductionHistory } from "../models/ProductionHistory";
 import { EventType } from "../models/EventType";
+import { getProductions } from "../request-schemas/production/get-productions";
 
 @Controller({
   route: '/',
@@ -15,7 +16,7 @@ export default class ProductionController{
     @POST('/production', {
       schema: postProduction
     })
-  public async handle(request: FastifyRequest, response: FastifyReply) {
+  public async postProduction(request: FastifyRequest, response: FastifyReply) {
     const finishedItemGuid = request.body.finished_item_guid;
     const rawMaterials = request.body.raw_materials;
     if (!finishedItemGuid) {
@@ -39,4 +40,17 @@ export default class ProductionController{
 
     response.status(201).send(production);
   } 
-}       
+
+  @GET('/production', {
+    schema: getProductions
+  })
+    public async getProduction(request: FastifyRequest, response: FastifyReply) {
+      const productionGuids = request.query.production_guids;
+      const include = request.query.include;
+      let productions;
+      if (productionGuids) {
+        productions = await request.orm.em.findAll(Production, {production_guid: productionGuids}, include ? {populate: include.split(',')}: {});
+      }
+      response.status(201).send(productions);
+    } 
+}
