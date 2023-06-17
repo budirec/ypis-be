@@ -15,6 +15,7 @@ services:
       - ./src:/var/www
     ports:
       - "80:80"
+      - "9229:9229"
   yp-cache:
     container_name: yp-cache
     image: redis:7.0.10-alpine

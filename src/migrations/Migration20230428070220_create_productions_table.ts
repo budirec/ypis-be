@@ -7,6 +7,7 @@ export class Migration20230428070220 extends Migration {
       CREATE TABLE IF NOT EXISTS productions (
       production_guid UUID DEFAULT uuid_generate_v4(), 
       production_status_guid UUID NOT NULL,
+      production_number INTEGER NOT NULL,
       finished_item_guid UUID NOT NULL,
       target REAL NOT NULL,
       buffer REAL NOT NULL,

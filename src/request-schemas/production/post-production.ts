@@ -9,9 +9,15 @@ export const postProduction = {
       },
       raw_materials: {
         type:"object",
+      },
+      target: {
+        type: "number",
+      },
+      buffer: {
+        type: "number",
       }
     },
-    required:["finished_item_guid", "raw_materials"]
+    required:["finished_item_guid", "raw_materials", "target", "buffer"]
   },
   response: {
     200: {

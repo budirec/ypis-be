@@ -7,6 +7,7 @@ import { Production } from "../models/Production";
 import { ProductionHistory } from "../models/ProductionHistory";
 import { EventType } from "../models/EventType";
 import { getProductions } from "../request-schemas/production/get-productions";
+import { Production as ProductionType } from "../types/Production";
 
 @Controller({
   route: '/',
@@ -17,22 +18,14 @@ export default class ProductionController{
       schema: postProduction
     })
   public async postProduction(request: FastifyRequest, response: FastifyReply) {
-    const finishedItemGuid = request.body.finished_item_guid;
-    const rawMaterials = request.body.raw_materials;
-    if (!finishedItemGuid) {
-      return response.status(400).send("finished_item_guid is required.");
-    }
-    if (!rawMaterials) {
-      return response.status(400).send("raw_materials is required.")
-    }
-    
-    const item = await request.orm.em.findOne(Item, finishedItemGuid);
+    const body = <ProductionType>request.body;
+    const item = await request.orm.em.findOne(Item, { item_guid: body.finished_item_guid });
     if (!item) {
       return response.status(400).send("Item not found with given finished_item_guid.");
     }
 
     const productionStatus = await request.orm.em.findOne(ProductionStatus, { status_slug: "open" });
-    const production = new Production(productionStatus, item, rawMaterials);
+    const production = await Production.instantiate(productionStatus, item, body.raw_materials, body.target, body.buffer, request.orm.em);
     const eventType = await request.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
@@ -41,7 +34,7 @@ export default class ProductionController{
     response.status(201).send(production);
   } 
 
-  @GET('/production', {
+  @GET('/productions', {
     schema: getProductions
   })
     public async getProduction(request: FastifyRequest, response: FastifyReply) {
@@ -49,7 +42,7 @@ export default class ProductionController{
       const include = request.query.include;
       let productions;
       if (productionGuids) {
-        productions = await request.orm.em.findAll(Production, {production_guid: productionGuids}, include ? {populate: include.split(',')}: {});
+        productions = await request.orm.em.find(Production, {production_guid: productionGuids}, include ? {populate: include.split(',')}: {});
       }
       response.status(201).send(productions);
     } 

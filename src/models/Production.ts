@@ -1,19 +1,14 @@
-import { Cascade, Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, EntityManager, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 import { ProductionStatus } from "./ProductionStatus";
 import { Item } from "./Item";
 import { ProductionHistory } from "./ProductionHistory";
 import { v4 } from "uuid";
+import { Production as ProductionType } from "../types/Production";
 
 @Entity({tableName: 'productions'})
 export class Production extends BaseModel {
-  constructor(productionStatus: ProductionStatus, finishedItem: Item, args: object) {
-    super();
-    this.productionStatus = productionStatus;
-    this.finishedItem = finishedItem;
-    this.args = args;
-  }
-
+  
   @PrimaryKey({ type: 'string' })
     production_guid: string = v4();
 
@@ -23,6 +18,9 @@ export class Production extends BaseModel {
   @ManyToOne({entity: 'Item', fieldName: 'finished_item_guid'})
     finishedItem: Item;
 
+  @Property({ type: 'number' })
+    production_number: number;
+  
   @Property({ type: 'number' })
     target: number;
   
@@ -34,4 +32,21 @@ export class Production extends BaseModel {
 
   @OneToMany({ entity: 'ProductionHistory', mappedBy: 'production', cascade: [Cascade.PERSIST] })
     productionHistories = new Collection<ProductionHistory>(this);
+
+  public static async instantiate(productionStatus: ProductionStatus, finishedItem: Item, args: object, target: number, buffer: number, em: EntityManager ) {
+    const production = new Production();
+    production.finishedItem = finishedItem;
+    production.productionStatus = productionStatus;
+    production.args = args;
+    production.target = target;
+    production.buffer = buffer;
+    
+    const date = new Date();
+    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    const [,count] = await em.findAndCount(Production, {created_at: {$gte: dateString}});
+    console.log(count);
+    production.production_number = count + 1
+    return production;
+
+  }
 }
