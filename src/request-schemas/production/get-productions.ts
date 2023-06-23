@@ -21,8 +21,12 @@ export const getProductions = {
         output: { type: "number", default: 0 },
         raw_materials: { type: "object" },
         author: { type: "string", nullable: true}
-
       }
     },
   }
+}
+
+export interface GETProductionParams {
+  production_guids?: string|string[],
+  include?: string;
 }

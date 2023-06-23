@@ -1,24 +1,23 @@
 import { Controller, ControllerType, GET, POST } from "fastify-decorators";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { postProduction } from "../request-schemas/production/post-production";
+import { postProduction, POSTProductionParams } from "../request-schemas/production/post-production";
 import { Item } from "../models/Item";
 import { ProductionStatus } from "../models/ProductionStatus";
 import { Production } from "../models/Production";
 import { ProductionHistory } from "../models/ProductionHistory";
 import { EventType } from "../models/EventType";
-import { getProductions } from "../request-schemas/production/get-productions";
-import { Production as ProductionType } from "../types/Production";
+import { getProductions, GETProductionParams } from "../request-schemas/production/get-productions";
 
 @Controller({
   route: '/',
   type: ControllerType.SINGLETON,
 })
 export default class ProductionController{
-    @POST('/production', {
-      schema: postProduction
-    })
+  @POST('/production', {
+    schema: postProduction
+  })
   public async postProduction(request: FastifyRequest, response: FastifyReply) {
-    const body = <ProductionType>request.body;
+    const body = <POSTProductionParams>request.body;
     const item = await request.orm.em.findOne(Item, { item_guid: body.finished_item_guid });
     if (!item) {
       return response.status(400).send("Item not found with given finished_item_guid.");
@@ -32,18 +31,23 @@ export default class ProductionController{
     await production.save(request.orm.em);
 
     response.status(201).send(production);
-  } 
+  }
 
   @GET('/productions', {
     schema: getProductions
   })
-    public async getProduction(request: FastifyRequest, response: FastifyReply) {
-      const productionGuids = request.query.production_guids;
-      const include = request.query.include;
-      let productions;
-      if (productionGuids) {
-        productions = await request.orm.em.find(Production, {production_guid: productionGuids}, include ? {populate: include.split(',')}: {});
+  public async getProduction(request: FastifyRequest, response: FastifyReply) {
+    const params = <GETProductionParams>request.query;
+    let productions;
+    if (params.production_guids) {
+      if (params.include) {
+        productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: ['productionHistories']});
+      } else {
+        productions = await request.orm.em.find(Production, {production_guid: params.production_guids});
       }
-      response.status(201).send(productions);
-    } 
+    } else {
+      productions = await request.orm.em.find(Production,{});
+    }
+    response.status(201).send(productions);
+  } 
 }

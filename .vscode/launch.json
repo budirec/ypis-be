@@ -10,7 +10,7 @@
       "name": "Debug YP",
       "remoteRoot": "/var/www",
       "localRoot": "${workspaceFolder}/src",
-      "port": 9229
+      "trace": true
     }
   ]
 }

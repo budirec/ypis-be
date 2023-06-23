@@ -26,3 +26,11 @@ export const postProduction = {
     },
   }
 }
+
+export interface POSTProductionParams {
+  raw_materials: object;
+  finished_item_guid: string;
+  target: number;
+  buffer: number;
+  production_number?: number;
+}

@@ -4,7 +4,6 @@ import { ProductionStatus } from "./ProductionStatus";
 import { Item } from "./Item";
 import { ProductionHistory } from "./ProductionHistory";
 import { v4 } from "uuid";
-import { Production as ProductionType } from "../types/Production";
 
 @Entity({tableName: 'productions'})
 export class Production extends BaseModel {
@@ -42,11 +41,9 @@ export class Production extends BaseModel {
     production.buffer = buffer;
     
     const date = new Date();
-    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     const [,count] = await em.findAndCount(Production, {created_at: {$gte: dateString}});
-    console.log(count);
     production.production_number = count + 1
     return production;
-
   }
 }
