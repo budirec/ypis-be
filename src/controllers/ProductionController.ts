@@ -41,24 +41,13 @@ export default class ProductionController{
     let productions;
     if (params.production_guids) {
       if (params.include) {
-        productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: ['productionHistories','finishedItem','productionStatus']});
+        productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: x});
       } else {
         productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: ['finishedItem','productionStatus']});
       }
     } else {
       productions = await request.orm.em.find(Production,{}, {populate: ['finishedItem','productionStatus']});
     }
-    // let resp: object[] = [];
-    // productions.forEach(production => {
-    //   let productionResponse = {
-    //     status: production.productionStatus.status,
-    //     item: production.finishedItem,
-    //     target: production.target,
-    //     buffer: production.buffer,
-    //     raw_materials: production.args
-    //   };
-    //   resp.push(productionResponse);
-    // });
     response.status(200).send(productions);
 
   } 

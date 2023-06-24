@@ -44,7 +44,7 @@ export const getProductions = {
   }
 }
 
-export interface GETProductionParams {
+export type GETProductionParams = {
   production_guids?: string|string[],
   include?: string;
 }

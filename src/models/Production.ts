@@ -1,4 +1,4 @@
-import { Cascade, Collection, Entity, EntityManager, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, EntityManager, ManyToOne, OneToMany, PrimaryKey, Property, wrap } from "@mikro-orm/core";
 import { BaseModel } from "./BaseModel";
 import { ProductionStatus } from "./ProductionStatus";
 import { Item } from "./Item";

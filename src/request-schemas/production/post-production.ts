@@ -27,7 +27,7 @@ export const postProduction = {
   }
 }
 
-export interface POSTProductionParams {
+export type POSTProductionParams = {
   raw_materials: object;
   finished_item_guid: string;
   target: number;
