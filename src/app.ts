@@ -1,5 +1,4 @@
 import fastify from "fastify";
-// import knex from "./plugins/knex-plugin";
 import { swaggerConfig } from "./config/swagger-config";
 import { swaggerUIConfig } from "./config/swagger-ui-config";
 import { bootstrap } from "fastify-decorators";

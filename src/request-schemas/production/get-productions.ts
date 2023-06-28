@@ -15,13 +15,10 @@ export const getProductions = {
       items:{
         type: 'object',
         properties:{
-          productionStatus: { 
-            type: "object", 
-            properties: {
-              status: {type:"string"}
-            } 
-          },
-          finishedItem: { 
+          production_guid: { type: "string" },
+          status: { type: "string" },
+          name: { type: "string" },
+          finished_item: {
             type: "object", 
             nullable: true, 
             properties: {
@@ -37,7 +34,23 @@ export const getProductions = {
           buffer: { type: "number" },
           output: { type: "number", default: 0 },
           args: { type: "object", additionalProperties: true },
-          author: { type: "string", nullable: true}
+          author: { type: "string", nullable: true},
+          production_histories: {
+            nullable: true,
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                production_history_guid: {type: "string"},
+                created_at: {type: "string"},
+                updated_at: {type: "string"},
+                production: {type: "string"},
+                eventType: {type: "string"},
+                label: {type: "string"},
+                args: { type: "object", nullable: true, additionalProperties: true },
+              }
+            }
+          }
         }
       }
     },

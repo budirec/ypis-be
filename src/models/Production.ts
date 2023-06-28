@@ -11,14 +11,14 @@ export class Production extends BaseModel {
   @PrimaryKey({ type: 'string' })
     production_guid: string = v4();
 
-  @ManyToOne({entity: 'ProductionStatus', fieldName: 'production_status_guid'})
+  @ManyToOne({entity: 'ProductionStatus', fieldName: 'production_status_guid', eager: true, serializer: value => value.status, serializedName: 'status'})
     productionStatus: ProductionStatus;
 
-  @ManyToOne({entity: 'Item', fieldName: 'finished_item_guid'})
+  @ManyToOne({entity: 'Item', fieldName: 'finished_item_guid', eager: true, serializedName: 'finished_item'})
     finishedItem: Item;
 
-  @Property({ type: 'number' })
-    production_number: number;
+  @Property({ type: 'string', serializedName: 'name' })
+    production_name: string;
   
   @Property({ type: 'number' })
     target: number;
@@ -29,7 +29,7 @@ export class Production extends BaseModel {
   @Property({ type: 'object' })
     args: object;
 
-  @OneToMany({ entity: 'ProductionHistory', mappedBy: 'production', cascade: [Cascade.PERSIST] })
+  @OneToMany({ entity: 'ProductionHistory', mappedBy: 'production', cascade: [Cascade.PERSIST], eager: true, serializedName: 'production_histories'})
     productionHistories = new Collection<ProductionHistory>(this);
 
   public static async instantiate(productionStatus: ProductionStatus, finishedItem: Item, args: object, target: number, buffer: number, em: EntityManager ) {
@@ -40,10 +40,9 @@ export class Production extends BaseModel {
     production.target = target;
     production.buffer = buffer;
     
-    const date = new Date();
-    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    const [,count] = await em.findAndCount(Production, {created_at: {$gte: dateString}});
-    production.production_number = count + 1
+    const [date] = new Date().toISOString().split('T');
+    const [,count] = await em.findAndCount(Production, {created_at: {$gte: date}});
+    production.production_name = `${date}/${count + 1}`
     return production;
   }
 }

@@ -40,13 +40,9 @@ export default class ProductionController{
     const params = <GETProductionParams>request.query;
     let productions;
     if (params.production_guids) {
-      if (params.include) {
-        productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: x});
-      } else {
-        productions = await request.orm.em.find(Production, {production_guid: params.production_guids}, {populate: ['finishedItem','productionStatus']});
-      }
+      productions = await request.orm.em.find(Production, {production_guid: params.production_guids});
     } else {
-      productions = await request.orm.em.find(Production,{}, {populate: ['finishedItem','productionStatus']});
+      productions = await request.orm.em.find(Production,{});
     }
     response.status(200).send(productions);
 
