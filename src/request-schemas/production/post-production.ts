@@ -15,6 +15,9 @@ export const postProduction = {
       },
       buffer: {
         type: "number",
+      },
+      production_name: {
+        type: "string",
       }
     },
     required:["finished_item_guid", "raw_materials", "target", "buffer"]
@@ -32,5 +35,5 @@ export type POSTProductionParams = {
   finished_item_guid: string;
   target: number;
   buffer: number;
-  production_number?: number;
+  production_name?: string;
 }

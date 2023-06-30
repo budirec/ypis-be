@@ -1,6 +1,6 @@
 export const getProductions = {
   tags: ['production'],
-  summary: "Create production document",
+  summary: "Get productions",
   querystring:{
     type: "object",
     properties: {

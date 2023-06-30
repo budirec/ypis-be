@@ -32,17 +32,20 @@ export class Production extends BaseModel {
   @OneToMany({ entity: 'ProductionHistory', mappedBy: 'production', cascade: [Cascade.PERSIST], eager: true, serializedName: 'production_histories'})
     productionHistories = new Collection<ProductionHistory>(this);
 
-  public static async instantiate(productionStatus: ProductionStatus, finishedItem: Item, args: object, target: number, buffer: number, em: EntityManager ) {
+  public static async instantiate(productionStatus: ProductionStatus, finishedItem: Item, args: object, target: number, buffer: number, em: EntityManager, productionName?: string) {
     const production = new Production();
     production.finishedItem = finishedItem;
     production.productionStatus = productionStatus;
     production.args = args;
     production.target = target;
     production.buffer = buffer;
-    
-    const [date] = new Date().toISOString().split('T');
-    const [,count] = await em.findAndCount(Production, {created_at: {$gte: date}});
-    production.production_name = `${date}/${count + 1}`
+    if (productionName) {
+      production.production_name = productionName;
+    } else {
+      const [date] = new Date().toISOString().split('T');
+      const [,count] = await em.findAndCount(Production, {created_at: {$gte: date}});
+      production.production_name = `${date}/${count + 1}`
+    }
     return production;
   }
 }

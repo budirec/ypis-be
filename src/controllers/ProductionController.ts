@@ -24,7 +24,15 @@ export default class ProductionController{
     }
 
     const productionStatus = await request.orm.em.findOne(ProductionStatus, { status_slug: "open" });
-    const production = await Production.instantiate(productionStatus, item, body.raw_materials, body.target, body.buffer, request.orm.em);
+    const production = await Production.instantiate(
+      productionStatus,
+      item,
+      body.raw_materials,
+      body.target,
+      body.buffer,
+      request.orm.em,
+      body.production_name || null
+    );
     const eventType = await request.orm.em.findOne(EventType, { event_type: EventType.PRODUCTION_APPROVED });
     const productionHistory = new ProductionHistory(production, eventType, "Production Approval Pending.")
     production.productionHistories.add(productionHistory);
