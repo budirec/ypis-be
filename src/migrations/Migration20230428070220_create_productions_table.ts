@@ -7,7 +7,10 @@ export class Migration20230428070220 extends Migration {
       CREATE TABLE IF NOT EXISTS productions (
       production_guid UUID DEFAULT uuid_generate_v4(), 
       production_status_guid UUID NOT NULL,
+      production_name VARCHAR(50) NOT NULL,
       finished_item_guid UUID NOT NULL,
+      target REAL NOT NULL,
+      buffer REAL NOT NULL,
       args JSONB NOT NULL,
       created_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
       updated_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
@@ -15,7 +18,10 @@ export class Migration20230428070220 extends Migration {
       REFERENCES production_statuses(production_status_guid) ON DELETE CASCADE,
       CONSTRAINT productions_finished_item_guid_fkey FOREIGN KEY (finished_item_guid)
       REFERENCES items(item_guid) ON DELETE CASCADE,
-      CONSTRAINT productions_pkey PRIMARY KEY (production_guid)
+      CONSTRAINT productions_pkey PRIMARY KEY (production_guid),
+      CONSTRAINT productions_target_positive_check CHECK (target >= 0),
+      CONSTRAINT productions_buffer_positive_check CHECK (buffer >= 0),
+      CONSTRAINT productions_production_name UNIQUE (production_name)
     )
   `);
 

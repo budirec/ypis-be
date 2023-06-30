@@ -2,5 +2,5 @@
     "watch": ["./"],
     "ext": "ts,json",
     "ignore": ["./**/*.spec.ts","./node_modules"],
-    "exec": "ts-node --transpile-only ./index.ts"
+    "exec": "ts-node --transpile-only ./index.ts  --inspect=0.0.0.0:9229"
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/ts-node index.ts",
     "dev": "./node_modules/.bin/nodemon",
-    "lint": "node_modules/.bin/eslint .",
+    "lint": "node_modules/.bin/eslint --fix .",
     "up": "node_modules/.bin/mikro-orm migration:up",
     "create": "node_modules/.bin/mikro-orm migration:create",
     "down": "node_modules/.bin/mikro-orm migration:down"
@@ -50,7 +50,8 @@
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
-    "eslint": "^8.37.0",
+    "eslint": "^8.43.0",
+    "eslint-config-standard-with-typescript": "^35.0.0",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.3"
   },

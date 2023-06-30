@@ -9,9 +9,18 @@ export const postProduction = {
       },
       raw_materials: {
         type:"object",
+      },
+      target: {
+        type: "number",
+      },
+      buffer: {
+        type: "number",
+      },
+      production_name: {
+        type: "string",
       }
     },
-    required:["finished_item_guid", "raw_materials"]
+    required:["finished_item_guid", "raw_materials", "target", "buffer"]
   },
   response: {
     200: {
@@ -19,4 +28,12 @@ export const postProduction = {
       type: 'object',
     },
   }
+}
+
+export type POSTProductionParams = {
+  raw_materials: object;
+  finished_item_guid: string;
+  target: number;
+  buffer: number;
+  production_name?: string;
 }
