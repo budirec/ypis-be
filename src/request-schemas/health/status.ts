@@ -9,6 +9,6 @@ export const status = {
       properties: {
         status: { type: 'string' }
       }
-    },
+    }
   }
 }

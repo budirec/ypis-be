@@ -1,6 +1,6 @@
-export const postItem = {
-  tags: ['item'],
-  summary: 'Add new item',
+export const postOrder = {
+  tags: ['order'],
+  summary: 'Create a new order',
   body: {
     type: 'object',
     properties: {

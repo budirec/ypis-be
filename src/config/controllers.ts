@@ -1,9 +1,11 @@
-import HealthController from "../controllers/HealthController";
-import ItemController from "../controllers/ItemController";
-import ProductionController from "../controllers/ProductionController";
+import CustomerController from '../controllers/CustomerController'
+import HealthController from '../controllers/HealthController'
+import ItemController from '../controllers/ItemController'
+import ProductionController from '../controllers/ProductionController'
 
 export const controllers = [
   HealthController,
   ProductionController,
-  ItemController
+  ItemController,
+  CustomerController
 ]

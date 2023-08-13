@@ -1,16 +1,16 @@
-import { Controller, ControllerType, GET } from "fastify-decorators";
-import { FastifyRequest, FastifyReply } from "fastify";
-import { status } from "../request-schemas/health/status";
+import { Controller, ControllerType, GET } from 'fastify-decorators'
+import { type FastifyRequest, type FastifyReply } from 'fastify'
+import { status } from '../request-schemas/health/status'
 
 @Controller({
   route: '/',
-  type: ControllerType.SINGLETON,
+  type: ControllerType.SINGLETON
 })
-export default class HealthController{
-    @GET('/status', {
-      schema: status
-    })
-  public async handle(request: FastifyRequest, response: FastifyReply) {
-    response.send({status: "OK"});
-  } 
-}       
+export default class HealthController {
+  @GET('/status', {
+    schema: status
+  })
+  public async handle (request: FastifyRequest, response: FastifyReply) {
+    response.send({ status: 'OK' })
+  }
+}

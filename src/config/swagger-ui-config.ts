@@ -3,7 +3,6 @@ export const swaggerUIConfig = {
   baseDir: '/var/www',
   routePrefix: '/swagger',
   uiConfig: {
-    docExpansion: 'full',
     deepLinking: true
-  },
+  }
 }

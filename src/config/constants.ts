@@ -10,4 +10,4 @@ export const constants = {
   DB_NAME: process.env.DB_NAME || 'yp',
   DB_HOST: process.env.DB_HOST || 'yp-postgres',
   DB_PORT: parseInt(process.env.DB_PORT || '5432')
-};
+}

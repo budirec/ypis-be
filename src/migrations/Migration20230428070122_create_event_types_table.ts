@@ -1,9 +1,8 @@
-import { Migration } from '@mikro-orm/migrations';
+import { Migration } from '@mikro-orm/migrations'
 
 export class Migration20230428070122 extends Migration {
-
-  async up(): Promise<void> {
-    await this.addSql(`
+  async up (): Promise<void> {
+    this.addSql(`
       CREATE TABLE IF NOT EXISTS event_types (
       event_type_guid UUID DEFAULT uuid_generate_v4(), 
       event_type VARCHAR(100) NOT NULL, 
@@ -11,11 +10,13 @@ export class Migration20230428070122 extends Migration {
       updated_at TIMESTAMP(1) NOT NULL DEFAULT CURRENT_TIMESTAMP(1),
       CONSTRAINT event_types_pkey PRIMARY KEY (event_type_guid)
     )
-  `);
+  `)
 
-    await this.addSql(`CREATE UNIQUE INDEX event_types_event_type_u_idx ON event_types(event_type);`);
+    this.addSql(
+      'CREATE UNIQUE INDEX event_types_event_type_u_idx ON event_types(event_type);'
+    )
 
-    await this.addSql(`
+    this.addSql(`
       CREATE OR REPLACE FUNCTION
       on_event_types_update()
       RETURNS
@@ -29,9 +30,9 @@ export class Migration20230428070122 extends Migration {
       CREATE OR REPLACE TRIGGER trigger_event_types_updated
       BEFORE UPDATE ON event_types
       FOR EACH ROW EXECUTE FUNCTION on_event_types_update();
-    `);
+    `)
 
-    return this.addSql(`
+    this.addSql(`
       INSERT INTO event_types (event_type) 
       VALUES
       ('Production Approved'),
@@ -48,11 +49,10 @@ export class Migration20230428070122 extends Migration {
       ('Harvested'),
       ('Frozen'),
       ('Done')
-    `);
+    `)
   }
 
-  async down(): Promise<void> {
-    return this.addSql(`DROP TABLE IF EXISTS event_types;`)
+  async down (): Promise<void> {
+    this.addSql('DROP TABLE IF EXISTS event_types;')
   }
-
 }
