@@ -7,7 +7,7 @@ export class Migration20230722064526 extends Migration {
       order_guid UUID DEFAULT uuid_generate_v4(),
       order_number VARCHAR(50) NOT NULL,
       customer_guid UUID NOT NULL, 
-      total_price VARCHAR(255) NOT NULL, 
+      total_price REAL NOT NULL, 
       order_date TIMESTAMP(1) NOT NULL, 
       expected_delivery_date TIMESTAMP(1) NOT NULL,
       order_status_guid UUID NOT NULL,

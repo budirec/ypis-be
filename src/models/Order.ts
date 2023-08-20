@@ -1,13 +1,8 @@
 import {
-  Cascade,
-  Collection,
   Entity,
-  EntityManager,
   ManyToOne,
-  OneToMany,
   PrimaryKey,
-  Property,
-  wrap
+  Property
 } from '@mikro-orm/core'
 import { BaseModel } from './BaseModel'
 import { v4 } from 'uuid'
@@ -18,6 +13,12 @@ import { type OrderStatus } from './OrderStatus'
 export class Order extends BaseModel {
   @PrimaryKey({ type: 'string' })
     order_guid: string = v4()
+
+  @Property({ type: 'string' })
+    order_number: string
+
+  @Property({ type: 'string' })
+    total_price: number
 
   @Property({ type: 'string' })
     order_date: string

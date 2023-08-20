@@ -51,7 +51,7 @@ export class Customer extends BaseModel {
     entity: 'CustomerContact',
     mappedBy: 'customer',
     cascade: [Cascade.PERSIST],
-    eager: false,
+    eager: true,
     serializedName: 'customer_contacts'
   })
     customerContacts = new Collection<CustomerContact>(this)
@@ -73,16 +73,16 @@ export class Customer extends BaseModel {
     customer.city = body.city
     customer.state = body.state
     customer.zip = body.zip
-    for (let i = 0; i < body.contacts.length; i++) {
+    for (const customerContact of body.contacts) {
       const contact = new CustomerContact()
-      contact.first_name = body.contacts[i].first_name
-      contact.last_name = body.contacts[i].last_name
-      contact.phone = body.contacts[i].phone
-      if (typeof body.contacts[i].email !== 'undefined' && body.contacts[i].email !== null) {
-        contact.email = body.contacts[i].email
+      contact.first_name = customerContact.first_name
+      contact.last_name = customerContact.last_name
+      contact.phone = customerContact.phone
+      if (typeof customerContact.email !== 'undefined' && customerContact.email !== null) {
+        contact.email = customerContact.email
       }
-      if (typeof body.contacts[i].company_position !== 'undefined' && body.contacts[i].company_position !== null) {
-        contact.company_position = body.contacts[i].company_position
+      if (typeof customerContact.company_position !== 'undefined' && customerContact.company_position !== null) {
+        contact.company_position = customerContact.company_position
       }
       customer.customerContacts.add(contact)
     }

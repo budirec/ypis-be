@@ -12,6 +12,7 @@ import {
 import { BaseModel } from './BaseModel'
 import { v4 } from 'uuid'
 import { type Customer } from './Customer'
+import { type Contact } from '../request-schemas/customer/post-customer-contacts'
 
 @Entity({ tableName: 'customer_contacts' })
 export class CustomerContact extends BaseModel {
@@ -35,4 +36,27 @@ export class CustomerContact extends BaseModel {
 
   @ManyToOne({ entity: 'Customer', fieldName: 'customer_guid', eager: true })
     customer: Customer
+
+  /**
+     *
+     * @param contacts Contact[]
+     * @returns Promise<CustomerContact[]>
+     */
+  public static async instantiate (contacts: Contact[]): Promise<CustomerContact[]> {
+    const customerContacts: CustomerContact[] = []
+    for (const customerContact of contacts) {
+      const contact = new CustomerContact()
+      contact.first_name = customerContact.first_name
+      contact.last_name = customerContact.last_name
+      contact.phone = customerContact.phone
+      if (typeof customerContact.email !== 'undefined' && customerContact.email !== null) {
+        contact.email = customerContact.email
+      }
+      if (typeof customerContact.company_position !== 'undefined' && customerContact.company_position !== null) {
+        contact.company_position = customerContact.company_position
+      }
+      customerContacts.push(contact)
+    }
+    return customerContacts
+  }
 }

@@ -50,5 +50,4 @@ export interface POSTCustomerParams {
   city: string
   state: string
   zip: string
-
 }
