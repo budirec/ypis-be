@@ -9,6 +9,23 @@ Yummy Products Information System Backend
 - Postgres
 
 
+## Local setup:
+1. Install VS Code.
+2. Install Vs Code extensions `ESLint` and `Prettier ESLint`
+3. Replace VS Code settings.json file contents with following:
+    ```
+    {
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript","typescript"]
+    }
+    ```
+4. cd to ypis-be project src directory and run `npm install`
+5. Inside ypis-be root directory run `docker compose up --build`
+6. Connect to web container running `docker exec -it yp-web sh` command and run `npm run up` 
+
+
 ## Sequence diagram
 ### https://sequencediagram.org/
 ```

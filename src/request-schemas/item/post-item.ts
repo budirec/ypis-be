@@ -1,24 +1,24 @@
 export const postItem = {
   tags: ['item'],
-  summary: "Add new item",
+  summary: 'Add new item',
   body: {
-    type: "object",
+    type: 'object',
     properties: {
       item_name: {
-        type: "string"
+        type: 'string'
       },
-      unit_price: { type:"number", minimum: 0.01 },
+      unit_price: { type: 'number', minimum: 0.01 },
       upc_code: {
-        type: "string"
+        type: 'string'
       },
-      stock_quantity: { type: "number", minimum: 0.01 },
+      stock_quantity: { type: 'number', minimum: 0.01 }
     },
-    required:["item_name", "unit_price", "stock_quantity"]
+    required: ['item_name', 'unit_price', 'stock_quantity']
   },
   response: {
     200: {
       description: 'OK',
-      type: 'object',
-    },
+      type: 'object'
+    }
   }
 }

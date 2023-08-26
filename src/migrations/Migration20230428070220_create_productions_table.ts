@@ -1,9 +1,8 @@
-import { Migration } from '@mikro-orm/migrations';
+import { Migration } from '@mikro-orm/migrations'
 
 export class Migration20230428070220 extends Migration {
-
-  async up(): Promise<void> {
-    await this.addSql(`
+  async up (): Promise<void> {
+    this.addSql(`
       CREATE TABLE IF NOT EXISTS productions (
       production_guid UUID DEFAULT uuid_generate_v4(), 
       production_status_guid UUID NOT NULL,
@@ -23,11 +22,13 @@ export class Migration20230428070220 extends Migration {
       CONSTRAINT productions_buffer_positive_check CHECK (buffer >= 0),
       CONSTRAINT productions_production_name UNIQUE (production_name)
     )
-  `);
+  `)
 
-    await this.addSql(`CREATE INDEX productions_args_idx ON productions USING GIN(args);`);
+    this.addSql(
+      'CREATE INDEX productions_args_idx ON productions USING GIN(args);'
+    )
 
-    return this.addSql(`
+    this.addSql(`
       CREATE OR REPLACE FUNCTION
       on_productions_update()
       RETURNS
@@ -41,12 +42,10 @@ export class Migration20230428070220 extends Migration {
       CREATE OR REPLACE TRIGGER trigger_productions_updated
       BEFORE UPDATE ON productions
       FOR EACH ROW EXECUTE FUNCTION on_productions_update();
-    `);
-
+    `)
   }
 
-  async down(): Promise<void> {
-    return this.addSql(`DROP TABLE IF EXISTS productions;`)
+  async down (): Promise<void> {
+    this.addSql('DROP TABLE IF EXISTS productions;')
   }
-
 }

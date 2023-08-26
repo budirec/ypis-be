@@ -1,4 +1,4 @@
-import { MikroORM } from "@mikro-orm/core";
+import { type MikroORM } from '@mikro-orm/core'
 
 declare module 'fastify' {
   interface FastifyRequest {

@@ -1,39 +1,39 @@
 export const postProduction = {
   tags: ['production'],
-  summary: "Create production document",
+  summary: 'Create production document',
   body: {
-    type: "object",
+    type: 'object',
     properties: {
       finished_item_guid: {
-        type:"string"
+        type: 'string'
       },
       raw_materials: {
-        type:"object",
+        type: 'object'
       },
       target: {
-        type: "number",
+        type: 'number'
       },
       buffer: {
-        type: "number",
+        type: 'number'
       },
       production_name: {
-        type: "string",
+        type: 'string'
       }
     },
-    required:["finished_item_guid", "raw_materials", "target", "buffer"]
+    required: ['finished_item_guid', 'raw_materials', 'target', 'buffer']
   },
   response: {
     200: {
       description: 'OK',
-      type: 'object',
-    },
+      type: 'object'
+    }
   }
 }
 
-export type POSTProductionParams = {
-  raw_materials: object;
-  finished_item_guid: string;
-  target: number;
-  buffer: number;
-  production_name?: string;
+export interface POSTProductionParams {
+  raw_materials: object
+  finished_item_guid: string
+  target: number
+  buffer: number
+  production_name?: string
 }
