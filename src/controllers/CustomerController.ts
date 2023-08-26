@@ -27,11 +27,9 @@ export default class CustomerController {
   })
   public async postCustomerContacts (request: FastifyRequest, response: FastifyReply): Promise<Customer | Error> {
     const body = request.body as POSTCustomerContactParams
-    console.log(body)
     const customer = await request.orm.em.findOne(Customer, {
       customer_guid: body.customer_guid
     })
-    console.log(customer)
     if (typeof customer === 'undefined' || customer === null) {
       return await response
         .status(400)
